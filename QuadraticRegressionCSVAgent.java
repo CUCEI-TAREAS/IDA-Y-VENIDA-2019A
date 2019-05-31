@@ -39,6 +39,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
+// to resolve the system of equiations 
+import Jama.Matrix;
+import java.lang.Math.*;
+
 public class QuadraticRegressionCSVAgent extends Agent {
 	/// Initialize variables
 	Random  rnd = new Random();
@@ -178,19 +182,57 @@ public class QuadraticRegressionCSVAgent extends Agent {
                 ArrayList<Double> xy = new ArrayList<Double>();
                 ArrayList<Double> xx = new ArrayList<Double>();
                 ArrayList<Double> yy = new ArrayList<Double>();
+
                 Double sumX = 0.0;
                 Double sumY = 0.0;
-                Double sumXY = 0.0;
-                Double sumXX = 0.0;
-                Double sumYY = 0.0;
-                Double a, b;
-                Double max = observationsX.get(0);
-                Double min = observationsX.get(0);
-                Double diff;
-                int random;
+                Double sumX2 = 0.0;
+		Double sumX3 = 0.0;
+                Double sumXY = 0.0; // RECYCLED JAJA
+                Double sumX2Y = 0.0; // X2
+		Double sumX4 = 0.0;
 
                 int n = observationsX.size();
 
+                for(int i = 0; i < n; i++){
+
+			sumX += observationsX.get(i);
+			sumY += observationsY.get(i);
+			sumX2 += observationsX.get(i) * observationsX.get(i);
+			sumX3 += observationsX.get(i) * observationsX.get(i) * observationsX.get(i);
+			sumXY += observationsX.get(i) * observationsY.get(i);
+			sumX2Y += observationsX.get(i) * observationsX.get(i) * observationsY.get(i);
+			sumX4 += observationsX.get(i) * observationsX.get(i) * observationsX.get(i) * observationsX.get(i);
+
+		}
+
+		        double[][] lhsArray = {{sumX2, sumX, n}, {sumX3, sumX2, sumX}, {sumX4, sumX3, sumX2}};
+			double[] rhsArray = {sumY, sumXY, sumX2Y};
+
+			Matrix lhs = new Matrix(lhsArray);
+			Matrix rhs = new Matrix(rhsArray, 3);
+
+			Matrix ans = lhs.solve(rhs);
+
+			System.out.println("x = " + Math.round(ans.get(0, 0)));
+			System.out.println("y = " + Math.round(ans.get(1, 0)));
+			System.out.println("z = " + Math.round(ans.get(2, 0)));
+
+
+                Double a = 0.0;
+                Double b = 0.0;
+                Double c = 0.0;
+		// JAMA
+
+
+
+                Double max = observationsX.get(0);
+                Double min = observationsX.get(0);
+
+                Double diff;
+                int random;
+
+
+		// oks
                 for(int i = 0; i < n; i++){
                     xy.add(observationsX.get(i) * observationsY.get(i));
                     xx.add(observationsX.get(i) * observationsX.get(i));
@@ -204,21 +246,8 @@ public class QuadraticRegressionCSVAgent extends Agent {
                     }
                 }
 
-                for(int i = 0; i < n; i++){
-                    sumX += observationsX.get(i);
-                    sumY += observationsY.get(i);
-                    sumXY += xy.get(i);
-                    sumXX += xx.get(i);
-                    sumYY += yy.get(i);
-                }
                 System.out.println("sum x: " + sumX);
                 System.out.println("sum y: " + sumY);
-                System.out.println("sum xy: " + sumXY);
-                System.out.println("sum xx: " + sumXX);
-                System.out.println("sum yy: " + sumYY);
-
-                a = ((sumY*sumXX) - (sumX*sumXY)) / ((n*sumXX)-(sumX*sumX));
-                b = ((n*sumXY)-(sumX*sumY)) / ((n*sumXX)-(sumX*sumX));
 
                 /// Write predictions
                 try {
