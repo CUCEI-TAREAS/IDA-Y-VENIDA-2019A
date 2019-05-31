@@ -213,24 +213,17 @@ public class QuadraticRegressionCSVAgent extends Agent {
 
 			Matrix ans = lhs.solve(rhs);
 
-			System.out.println("x = " + Math.round(ans.get(0, 0)));
-			System.out.println("y = " + Math.round(ans.get(1, 0)));
-			System.out.println("z = " + Math.round(ans.get(2, 0)));
+                Double a = ans.get(0, 0);
+                Double b = ans.get(1, 0);
+                Double c = ans.get(2, 0);
 
-
-                Double a = 0.0;
-                Double b = 0.0;
-                Double c = 0.0;
 		// JAMA
-
 
 
                 Double max = observationsX.get(0);
                 Double min = observationsX.get(0);
 
                 Double diff;
-                int random;
-
 
 		// oks
                 for(int i = 0; i < n; i++){
@@ -249,6 +242,8 @@ public class QuadraticRegressionCSVAgent extends Agent {
                 System.out.println("sum x: " + sumX);
                 System.out.println("sum y: " + sumY);
 
+                int random;
+
                 /// Write predictions
                 try {
                     writer = new CSVWriter(new FileWriter(fileNamePre, true));
@@ -256,9 +251,10 @@ public class QuadraticRegressionCSVAgent extends Agent {
 
                     for(int i = 0; i < 10; i++){
                         random = (int)(rnd.nextDouble() * (diff*2) + (min - diff/2));
+			int random2 = random * random;
 
                         observation[0] = Integer.toString(random);
-                        observation[1] = Double.toString(a + b * random);
+                        observation[1] = Double.toString( a *  random2 + b * random + c );
                         writer.writeNext(observation);
                     }
 
@@ -268,9 +264,9 @@ public class QuadraticRegressionCSVAgent extends Agent {
                 }
 
                 /// Send reply
-				if (a != null && b != null) {
+				if (a != null && b != null && c != null ) {
 					reply.setPerformative(ACLMessage.INFORM);
-					System.out.println("Formula: y = " + a + " + " + b + "x");
+					System.out.println("Formula: y = " + a + "x^2 + " + b + "x +" + c);
 				}
 				else {
 					// The requested book has been sold to another buyer in the meanwhile .
