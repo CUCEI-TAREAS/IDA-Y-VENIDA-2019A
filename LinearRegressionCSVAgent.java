@@ -66,7 +66,7 @@ public class LinearRegressionCSVAgent extends Agent {
 		DFAgentDescription dfd = new DFAgentDescription();
 		dfd.setName(getAID());
 		ServiceDescription sd = new ServiceDescription();
-		sd.setType("linear-regression");
+		sd.setType("Quadratic-Regression");
 		sd.setName("pipo-linear-regression");
 		dfd.addServices(sd);
 		try {

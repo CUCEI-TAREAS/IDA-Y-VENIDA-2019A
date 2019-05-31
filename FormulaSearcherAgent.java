@@ -57,7 +57,7 @@ public class FormulaSearcherAgent extends Agent {
 					// Update the list of linear-regression agents
 					DFAgentDescription template = new DFAgentDescription();
 					ServiceDescription sd = new ServiceDescription();
-					sd.setType("linear-regression");
+					sd.setType("Quadratic-Regression");
 					template.addServices(sd);
 					try {
 						DFAgentDescription[] result = DFService.search(myAgent, template);
