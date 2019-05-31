@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA  02111-1307, USA.
  *****************************************************************/
 
-package examples.linearRegression;
+package examples.QuadraticRegression;
 
 import jade.core.Agent;
 import jade.core.AID;
@@ -37,7 +37,7 @@ public class FormulaSearcherAgent extends Agent {
 	// The subject to look for
 	private String targetSubject;
 	// The list of known linear-regression agents
-	private AID[] linearRegressionAgents;
+	private AID[] QuadraticRegressionAgents;
 
 	// Put agent initializations here
 	protected void setup() {
@@ -53,19 +53,19 @@ public class FormulaSearcherAgent extends Agent {
 			// Add a TickerBehaviour that schedules a request to linear-regression agents every minute
 			addBehaviour(new TickerBehaviour(this, 7000) {
 				protected void onTick() {
-					System.out.println("Trying get " + targetSubject + " linear regression formula");
-					// Update the list of linear-regression agents
+					System.out.println("Trying get " + targetSubject + " Quadratic regression formula");
+					// Update the list of quadratic-regression agents
 					DFAgentDescription template = new DFAgentDescription();
 					ServiceDescription sd = new ServiceDescription();
 					sd.setType("Quadratic-Regression");
 					template.addServices(sd);
 					try {
 						DFAgentDescription[] result = DFService.search(myAgent, template);
-						System.out.println("Found the following linear-regression agents:");
-						linearRegressionAgents = new AID[result.length];
+						System.out.println("Found the following Quadratic-regression agents:");
+						QuadraticRegressionAgents = new AID[result.length];
 						for (int i = 0; i < result.length; ++i) {
-							linearRegressionAgents[i] = result[i].getName();
-							System.out.println(linearRegressionAgents[i].getName());
+							QuadraticRegressionAgents[i] = result[i].getName();
+							System.out.println(QuadraticRegressionAgents[i].getName());
 						}
 					}
 					catch (FIPAException fe) {
@@ -107,8 +107,8 @@ public class FormulaSearcherAgent extends Agent {
 			case 0:
 				// Send the cfp to all sellers
 				ACLMessage cfp = new ACLMessage(ACLMessage.CFP);
-				for (int i = 0; i < linearRegressionAgents.length; ++i) {
-					cfp.addReceiver(linearRegressionAgents[i]);
+				for (int i = 0; i < QuadraticRegressionAgents.length; ++i) {
+					cfp.addReceiver(QuadraticRegressionAgents[i]);
 				}
 				cfp.setContent(targetSubject);
 				cfp.setConversationId("book-trade");
@@ -134,7 +134,7 @@ public class FormulaSearcherAgent extends Agent {
 						}
 					}
 					repliesCnt++;
-					if (repliesCnt >= linearRegressionAgents.length) {
+					if (repliesCnt >= QuadraticRegressionAgents.length) {
 						// We received all replies
 						step = 2;
 					}

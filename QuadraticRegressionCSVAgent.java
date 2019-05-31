@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA  02111-1307, USA.
  *****************************************************************/
 
-package examples.linearRegression;
+package examples.QuadraticRegression;
 
 import jade.core.Agent;
 import jade.core.behaviours.*;
@@ -39,7 +39,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
-public class LinearRegressionCSVAgent extends Agent {
+public class QuadraticRegressionCSVAgent extends Agent {
 	/// Initialize variables
 	Random  rnd = new Random();
 	ArrayList<Double> observationsX = new ArrayList<Double>();
@@ -50,7 +50,7 @@ public class LinearRegressionCSVAgent extends Agent {
 	CSVWriter writer;
 
 	// The GUI by means of which the user can add books in the catalogue
-	private LinearRegressionCSVAgentGUI myGui;
+	private QuadraticRegressionCSVAgentGUI myGui;
 
 	// Put agent initializations here
 	protected void setup() {
@@ -59,7 +59,7 @@ public class LinearRegressionCSVAgent extends Agent {
 		fileNamePre = "predictions.csv";
 
 		// Create and show the GUI
-		myGui = new LinearRegressionCSVAgentGUI(this);
+		myGui = new QuadraticRegressionCSVAgentGUI(this);
 		myGui.showGui();
 
 		// Register the linear-regression service in the yellow pages

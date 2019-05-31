@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA  02111-1307, USA.
 *****************************************************************/
 
-package examples.linearRegression;
+package examples.QuadraticRegression;
 
 import jade.core.AID;
 
@@ -29,12 +29,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-class LinearRegressionCSVAgentGUI extends JFrame {
-	private LinearRegressionCSVAgent myAgent;
+class QuadraticRegressionCSVAgentGUI extends JFrame {
+	private QuadraticRegressionCSVAgent myAgent;
 
 	private JTextField xField, yField;
 
-	LinearRegressionCSVAgentGUI(LinearRegressionCSVAgent a) {
+	QuadraticRegressionCSVAgentGUI(QuadraticRegressionCSVAgent a) {
 		super(a.getLocalName());
 
 		myAgent = a;
@@ -63,7 +63,7 @@ class LinearRegressionCSVAgentGUI extends JFrame {
 					yField.setText("");
 				}
 				catch (Exception e) {
-					JOptionPane.showMessageDialog(LinearRegressionCSVAgentGUI.this, "Invalid values. "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(QuadraticRegressionCSVAgentGUI.this, "Invalid values. "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		} );
